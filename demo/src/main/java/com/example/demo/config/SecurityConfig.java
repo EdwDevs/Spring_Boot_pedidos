@@ -13,15 +13,11 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
-                // Desactivamos CSRF porque es una API REST
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                // Permitimos acceso a todos a nuestra API de saludos
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/api/saludo/**").permitAll()
-                        // Para cualquier otra ruta, requiere autenticación
+                        .pathMatchers("/api/saludo/**", "/api/idiomas", "/api/productos/**").permitAll()
                         .anyExchange().authenticated()
                 )
-                // Configuración para APIs: usamos autenticación básica HTTP
                 .httpBasic(httpBasic -> {})
                 .build();
     }
